@@ -6,28 +6,28 @@ import java.math.*;
 public class Main{
 	public static void main(String[] args) throws IOException{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		int T = Integer.parseInt(br.readLine());
+		int T = Integer.parseInt(br.readLine());		
 		while(T-->0) {
-			String answer = "YES";
-			LinkedList<Character> list = new LinkedList<Character>();
-			for(char c: br.readLine().toCharArray()) {
-				list.add(c);
+			String input = br.readLine();
+			Stack<Character> stack = new Stack<>();
+			boolean isbalance = true;
+			for(int i=0; i<input.length(); i++) {
+				  char c = input.charAt(i);
+				  if(c == '(') {
+					 stack.push('(');
+				  } else {
+					  if(stack.isEmpty()) {
+						  isbalance = false;
+					  } else {
+						  stack.pop();
+					  }
+				  }
 			}
-			int i= 0;
-			
-			while(i<list.size()-1) {
-				 
-				 if(list.get(i).equals('(') && list.get(i+1).equals(')')) {
-				
-					list.remove(i+1);
-					list.remove(i);
-					i=0;
-				} else {
-					i++;
-				}
+			if(isbalance == true &&stack.isEmpty()) {
+				System.out.println("YES");
+			} else {
+				System.out.println("NO");
 			}
-			if(!list.isEmpty()) answer = "NO";
-			System.out.println(answer);	
 		}
 	}
 }
