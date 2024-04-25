@@ -26,7 +26,7 @@ public class Main{
  		
  		for(int i=1; i<=N; i++) {
  			if(!visited[i]) {
- 				dfs(i);
+ 				bfs(i);
  				cnt++;
  			}
  		}
@@ -34,14 +34,20 @@ public class Main{
  		System.out.println(cnt);
 	}	
  	
- 	static void dfs(int node) {
+ 	static void bfs(int node) {
+ 		Queue<Integer> q = new LinkedList<>();
+ 		q.offer(node);
  		visited[node] = true;
- 		for(int i=1; i<=N; i++) {
- 			if(graph[node][i] == 1 && !visited[i]) {
-					dfs(i);
-				}
+ 		while(!q.isEmpty()) {
+ 			int cur = q.poll();
+ 			for(int i=1; i<=N; i++) {
+ 				if(graph[cur][i] == 1 && !visited[i]) {
+ 					visited[i] = true;
+ 					q.offer(i);
+ 				}
+ 			}
  		}
- 		
  	}
  
  	}
+ 	
