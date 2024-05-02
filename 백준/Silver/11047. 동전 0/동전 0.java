@@ -17,7 +17,7 @@ public class Main {
 		int nameun = K;
 		while(true) {
 			int max =0;
-			for(int i=N-1; i>=0; i--) {
+			for(int i=0; i<N; i++) {
 				if(arr[i] <= nameun) {
 					if(max < arr[i]) {
 						max = arr[i];
@@ -32,4 +32,4 @@ public class Main {
 	}
  
 }
- 	
+ 	 
