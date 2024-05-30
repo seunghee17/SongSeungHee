@@ -1,52 +1,69 @@
+import java.io.*;
 import java.util.*;
+import java.math.*;
 
 public class Main {
-    static char[] arr = new char[64];
-    
-    public static void preprocess(){
-    for(int i=0; i<64; i++){
-        if(i<10) arr[i] = (char)('0'+i);
-        else if(i<36) arr[i] = (char)('A' + i - 10);
-        else if(i<62) arr[i] = (char)('a' + i - 36);
-        else if(i == 62) arr[i] = '+';
-        else arr[i] = '/';
-    }}
-    
-    
-    public static boolean isPal(String s){
-        String a = new StringBuffer(s).reverse().toString();
-        
-        return s.equals(a);
-    }
-    
-    public static String pal(int n, int d){
-        StringBuffer sb = new StringBuffer();
-        while(n > 0){
-            sb.append(arr[n%d]);
-            n /= d;
-        }
-        
-        return sb.reverse().toString();
-    }
-    
-    public static void main (String[] args) {
-        preprocess();
-        
-        Scanner sc = new Scanner(System.in);
-        int T = sc.nextInt();
-        while(T-- > 0){
-            int n = sc.nextInt();
-            boolean found = false;
-            for(int i=2; i<65; i++){
-                String check = pal(n, i);
-                
-                if(isPal(check)){
-                    found = true;
-                    System.out.println(1);
-                    break;
-                }
-            }
-            if(!found)System.out.println(0);
-        }
-    }
+	public static int[] convertBase(int x, int B) {
+		int len = 0, copyX = x;
+		while(copyX>0) {
+			copyX /= B;
+			len++;
+		}
+		//가장 최대값을 이진법으로 변환한 자릿수가 가장 길이가 긴 진법변환일 것이다 
+		int[] digit = new int[len];
+		len=0;
+		while(x>0) {
+			digit[len++] = x % B;
+			x /=B;
+		}
+		return digit;
+	}
+	public static boolean isPalindrome(int[] digit) {
+		for(int i=0; i<digit.length /2; i++) {
+			if(digit[i] != digit[digit.length-i-1]) {
+				return false;
+			}
+		}
+		return true;
+	}
+	public static void main(String[] args) throws IOException {
+		Scanner sc = new Scanner(System.in);
+		int T = sc.nextInt();
+		while(T-->0) {
+			int x = sc.nextInt();
+			boolean ans = false;
+			for(int i=2; i<=64; i++) {
+				int[] digit = convertBase(x,i);
+				if(isPalindrome(digit)) {
+					ans = true;
+					break;
+				}
+			}
+			System.out.println(ans ? "1" : "0");
+		}
+	}
+	
+	public static int findCase(long num) {
+		for(int B=2; B<=64; B++) {
+			String numStr = Long.toString(num, B);
+			if(isValid(numStr)) {
+				return 1;
+			}
+		}
+		return 0;
+	}
+	
+	public static boolean isValid(String str) {
+		int left = 0;
+		int right = str.length()-1;
+		while(left<right) {
+			if(str.charAt(left) != str.charAt(right)) {
+				return false;
+			}
+			left++;
+			right--;
+		}
+		return true;
+	}
+ 
 }
