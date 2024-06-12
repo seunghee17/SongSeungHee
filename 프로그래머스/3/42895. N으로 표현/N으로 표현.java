@@ -1,33 +1,27 @@
-import java.io.*;
-import java.util.*;
-
 class Solution {
-    static int result=0;
+    static int result = Integer.MAX_VALUE;
     public int solution(int N, int number) {
-        dfs(0,0,number,N);
-        if(result==0) {
+        dfs(0,0,N,number);
+        if(result == Integer.MAX_VALUE) {
             result = -1;
         }
-       return result;
+        return result;
     }
-    public void dfs(int depth, int sum, int number, int N) {
-        if(depth>8) {
-           return;
+    static void dfs(int depth, int sum ,int N, int number) {
+        if(depth<9) {
+            if(sum == number) {
+                result = Math.min(result, depth);
+            }
+        } if(depth > 8) {
+            return;
         }
-       if(sum == number) {
-           if(depth < result || result==0) {
-               result = depth;
-               return;
-           }
-       }
         int temp = 0;
         for(int i=1; i<9; i++) {
-            temp = temp *10 + N;
-            dfs(depth+i, sum + temp, number, N);
-            dfs(depth+i, sum - temp, number, N);
-            dfs(depth+i, sum / temp, number, N);
-            dfs(depth+i, sum * temp, number, N);
+            temp = temp * 10 + N;
+            dfs(depth+i, sum + temp, N, number);
+            dfs(depth+i, sum - temp, N, number);
+            dfs(depth+i, sum * temp, N, number);
+            dfs(depth+i, sum / temp, N, number);
         }
-        
     }
 }
